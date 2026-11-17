@@ -1,1 +1,1 @@
-package cligen
+package main

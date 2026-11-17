@@ -3,6 +3,7 @@ package dataset
 import (
 	"encoding/json"
 	"io"
+	"os"
 )
 
 type City struct {
@@ -22,4 +23,17 @@ func Write(d Dataset, o io.Writer) error {
 		return err
 	}
 	return nil
+}
+
+func Read(f string) (Dataset, error) {
+	b, err := os.ReadFile(f)
+	if err != nil {
+		return Dataset{}, err
+	}
+	var d Dataset
+	if err := json.Unmarshal(b, &d); err != nil {
+		return Dataset{}, err
+	}
+
+	return d, nil
 }
