@@ -1,5 +1,9 @@
-_: {
-  languages.go.enable = true;
+{pkgs, ...}: {
+  packages = [pkgs.vscode-langservers-extracted];
+
+  languages = {
+    go.enable = true;
+  };
 
   git-hooks.hooks = {
     check-added-large-files.enable = true;

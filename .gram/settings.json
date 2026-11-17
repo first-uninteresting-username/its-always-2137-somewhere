@@ -1,0 +1,10 @@
+{
+  "lsp": {
+    "json-language-server": {
+      "binary": {
+        "path": "vscode-json-language-server",
+        "arguments": ["--stdio"]
+      }
+    }
+  }
+}
