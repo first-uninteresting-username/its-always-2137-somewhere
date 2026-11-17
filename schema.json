@@ -19,7 +19,7 @@
     "city": {
       "type": "object",
       "properties": {
-        "zone": { "type": "integer", "minimum": 0, "maximum": 1440},
+        "zone": { "type": "integer", "minimum": 0, "maximum": 1439},
         "name": {"type": "string"},
         "country": {"type": "string"}
       },
