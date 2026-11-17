@@ -1,1 +1,30 @@
-{}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "cities": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/$defs/city"},
+          {"type": "null"}
+        ]
+      },
+      "minItems": 1440,
+      "maxItems": 1440
+    }
+  },
+  "required": ["cities"],
+  "$defs": {
+    "city": {
+      "type": "object",
+      "properties": {
+        "zone": { "type": "integer", "minimum": 0, "maximum": 1440},
+        "name": {"type": "string"},
+        "country": {"type": "string"}
+      },
+      "required": ["zone", "name", "country"],
+      "additionalProperties": false
+    }
+  }
+}
