@@ -61,6 +61,9 @@ devenv shell
 
 <!-- People who helped, libraries you leaned on, asset packs you used. -->
 
+- City data from [GeoNames](https://www.geonames.org/) (`cities5000`), licensed under
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
 ## License
 
-This project is licensed under the [GNU GPL v3.0](LICENSE).
+This project is licensed under the [GNU AGPL v3.0](LICENSE).
