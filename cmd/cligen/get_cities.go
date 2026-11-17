@@ -35,9 +35,9 @@ func getCities(path string) (rawCities, error) {
 		}
 
 		c := rawCity{
-			name,
-			countryCode,
-			longitude,
+			Name:        name,
+			CountryCode: countryCode,
+			Longitude:   longitude,
 		}
 
 		rc.Cities = append(rc.Cities, c)

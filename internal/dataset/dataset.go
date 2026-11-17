@@ -13,7 +13,7 @@ type City struct {
 }
 
 type Dataset struct {
-	Cities [1440]*City
+	Cities [1440]*City `json:"cities"`
 }
 
 func Write(d Dataset, o io.Writer) error {
