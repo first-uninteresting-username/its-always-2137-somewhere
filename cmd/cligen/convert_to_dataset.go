@@ -55,14 +55,13 @@ func getBiggestInZone(zone int, d rawCities) (rawCity, error) {
 func addZones(cities rawCities) (rawCities, error) {
 	var citi rawCities
 	for _, c := range cities.Cities {
-		var zone *int
-		*zone = getZone(c.Longitude)
+		zone := getZone(c.Longitude)
 		c = rawCity{
 			Name:        c.Name,
 			CountryCode: c.CountryCode,
 			Longitude:   c.Longitude,
 			Population:  c.Population,
-			Zone:        zone,
+			Zone:        &zone,
 		}
 		citi.Cities = append(citi.Cities, c)
 	}
@@ -70,9 +69,17 @@ func addZones(cities rawCities) (rawCities, error) {
 }
 
 func convertToDataset(cities rawCities) (dataset.Dataset, error) {
+	cities, err := addZones(cities)
+	if err != nil {
+		return dataset.Dataset{}, err
+	}
 	var d dataset.Dataset
-	for zone := range 1339 {
+	for zone := range len(d.Cities) {
 		c, err := getBiggestInZone(zone, cities)
+		if err == emptyZoneError {
+			d.Cities[zone] = nil
+			continue
+		}
 		if err != nil {
 			return dataset.Dataset{}, err
 		}
