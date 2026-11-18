@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/first-uninteresting-username/its-always-2137-somewhere/internal/dataset"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 )
@@ -49,4 +50,44 @@ func getBiggestInZone(zone int, d rawCities) (rawCity, error) {
 	}
 
 	return c, nil
+}
+
+func addZones(cities rawCities) (rawCities, error) {
+	var citi rawCities
+	for _, c := range cities.Cities {
+		var zone *int
+		*zone = getZone(c.Longitude)
+		c = rawCity{
+			Name:        c.Name,
+			CountryCode: c.CountryCode,
+			Longitude:   c.Longitude,
+			Population:  c.Population,
+			Zone:        zone,
+		}
+		citi.Cities = append(citi.Cities, c)
+	}
+	return citi, nil
+}
+
+func convertToDataset(cities rawCities) (dataset.Dataset, error) {
+	var d dataset.Dataset
+	for zone := range 1339 {
+		c, err := getBiggestInZone(zone, cities)
+		if err != nil {
+			return dataset.Dataset{}, err
+		}
+		country, err := countryName(c.CountryCode)
+		if err != nil {
+			return dataset.Dataset{}, err
+		}
+		city := dataset.City{
+			Zone:    zone,
+			Name:    c.Name,
+			Country: country,
+		}
+
+		d.Cities[zone] = &city
+	}
+
+	return d, nil
 }
