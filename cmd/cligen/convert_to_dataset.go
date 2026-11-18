@@ -1,12 +1,17 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math"
 
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 )
+
+var emptyZoneError = errors.New("Zone is empty")
+
+const EMPTY_CITY string = "EMPTY_CITY"
 
 func countryName(code string) (string, error) {
 	r, err := language.ParseRegion(code)
@@ -25,4 +30,23 @@ func getZone(longitude float64) int {
 
 	long := (-longitude + 180) * 4
 	return int(math.Floor(long))
+}
+
+func getBiggestInZone(zone int, d rawCities) (rawCity, error) {
+	c := rawCity{
+		Name:       EMPTY_CITY,
+		Population: 0,
+	}
+	for _, city := range d.Cities {
+		if *city.Zone == zone {
+			if city.Population > c.Population {
+				c = city
+			}
+		}
+	}
+	if c.Name == EMPTY_CITY {
+		return rawCity{}, emptyZoneError
+	}
+
+	return c, nil
 }

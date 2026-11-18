@@ -11,6 +11,8 @@ type rawCity struct {
 	Name        string
 	CountryCode string
 	Longitude   float64
+	Population  int
+	Zone        *int
 }
 
 type rawCities struct {
@@ -33,11 +35,17 @@ func getCities(path string) (rawCities, error) {
 		if err != nil {
 			return rawCities{}, err
 		}
+		population, err := strconv.Atoi(fields[14])
+		if err != nil {
+			return rawCities{}, err
+		}
 
 		c := rawCity{
 			Name:        name,
 			CountryCode: countryCode,
 			Longitude:   longitude,
+			Population:  population,
+			Zone:        nil,
 		}
 
 		rc.Cities = append(rc.Cities, c)
